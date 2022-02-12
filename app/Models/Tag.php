@@ -9,4 +9,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Tag extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_tag');
+    }
+
+    public function getProductsCountAttribute()
+    {
+        return $this->products()->count();
+    }
 }
