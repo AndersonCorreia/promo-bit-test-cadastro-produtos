@@ -69,7 +69,7 @@ class ProductsController extends Controller
     {
         return view('product.product_destroy', [
             'product' => $product,
-            'tags' => Tag::all()
+            'tags' => $product->tags
         ]);
     }
 
