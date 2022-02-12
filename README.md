@@ -1,73 +1,57 @@
 # Desafio Promobit
 
-⚠️ **Atenção**: Esse teste possui uma etapa de lógica e uma etapa prática, para fazer o teste de lógica acesse: [teste-logica](https://github.com/Promobit/teste-logica)
+⚠️ **Atenção**: Teste de lógica em: [teste-logica](https://github.com/AndersonCorreia/promo-bit-teste-logica)
 
-- [Desafio Promobit](#desafio-promobit)
-  - [Objetivo](#objetivo)
-  - [Desafio](#desafio)
-  - [Requisitos](#requisitos)
-  - [Techs](#techs-obrigatrio)
-  - [Como entregar](#como-entregar)
-  
-## Objetivo
-O objetivo é avaliar o seu conhecimento e habilidades em desenvolvimento Back-End e Front-End.
+### Setup
 
-### Desafio
-Criação de CRUD de produtos, tags e extração de relatório de relevância de produtos.
+Para executar o projeto tenha uma versão do PHP a partir da 7.4, composer e Docker + Docker compose instalados.
+Escolhi usar o docker para executar o banco de dados Mysql utilizado no projeto.
 
-### Requisitos
-- Páginas de listagem/cadastro/edição/delete de `Produtos`, as páginas devem ter navegação entre elas.
-- Páginas de listagem/cadastro/edição/delete de `Tags`, as páginas devem ter navegação entre elas. 
-- Relatório de relevância de produtos.
-- Poderá ser vinculadas uma ou mais `Tags` pela tela de cadastro ou edição de `Produtos`.
-
-#### Regras para extração de relatório de releavância de produtos 
-- SQL com listagem de `Tags` mais um sumarizador de `Produtos` atrelado a cada `Tag`;
-
-#### Estrutura das tabelas envolvidas:
-```SQL
-CREATE TABLE `product` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name_UNIQUE` (`name`)
-);
-CREATE TABLE `tag` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name_UNIQUE` (`name`)
-);
-CREATE TABLE `product_tag` (
-   `product_id` int NOT NULL,
-   `tag_id` int NOT NULL,
-   PRIMARY KEY (`product_id`,`tag_id`),
-   CONSTRAINT `product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
-   CONSTRAINT `tag_id` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`)
-);
+1# passo - Subir o container do banco de dados:
+Execute o comando:
+```
+docker-compose up
+```
+2# passo - baixar as dependencias do projeto pelo composer:
+Execute o comando:
+```
+composer update
 ```
 
-### Techs (Obrigatório)
+3# passo - criar o arquivo .env utilizado pelo laravel:
+Execute o comando:
+```
+cp .env.example .env
+```
+Isto cria um arquivo .env com as configurações padrões do projeto, observe que no .env.example alterei os dados de coneção com o banco de dados
+para as informações utilizadas para criar o container do banco de dados, inclusive em outra Porta pois no meu sistema a 3306 estava ocupada.
 
-- PHP 7+ 
-- MySQL 5.7+
-- Pode usar qualquer framework PHP para o desenvolvimento ou não usar nenhum, fica a sua escolha.
-- Pode usar qualquer framework de Front, tais como: Bootstrap, Material UI, etc...
+4# passo - Executar as migrations do laravel para popular o banco de dados:
+Execute o comando:
+```
+php artisan migrate
+```
+5# passo - Todas as configurações feitas, agora é só executar o servidor do laravel:
+Execute o comando:
+```
+php artisan serve
+```
 
-### Seria bom se fizesse (Opcional)
+#### SQL para extração de relatório de relevância de produtos:
+```SQL
+SELECT t.id, t.name AS 'Tag', COUNT(p.id) AS 'Total de produtos' 
+FROM tags t 
+LEFT JOIN product_tag pt ON t.id = pt.tag_id 
+LEFT JOIN products p ON p.id = pt.product_id 
+GROUP BY t.id, t.name
+```
 
-- Autenticação de usuário.
-- Docker + Docker compose.
+### Techs Utilizadas
 
-### Como entregar
+- PHP 7.4.7
+- MySQL 8.0
+- Laravel 8
+- AdminLTE 3.0.0
+- Bootstrap
+- Docker + Docker compose, para rodar o mysql do projeto
 
-- Colocar SQL de extração de relatório de relevancia de produtos no README.md do seu repositório.
-- Envie o link do seu repositório para [contato@promobit.com.br](mailto:contato@promobit.com.br)
-
-### Orientações
-- Procure fazer um código sucinto. 
-- Coloque isso em um repositório GIT.
-- Colocar as orientações de setup no README do seu repositório.
-- Fique avontade para incrementar o projeto, nos surpreenda.
-
-# Boa sorte 
