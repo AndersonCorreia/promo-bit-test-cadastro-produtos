@@ -70,6 +70,7 @@ class TagsController extends Controller
 
     public function deleteDestroy(Tag $tag)
     {
+        $tag->products()->detach();
         $tag->delete();
 
         return redirect()->route('tags.index');

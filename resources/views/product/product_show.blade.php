@@ -20,15 +20,15 @@
       <label for="name" class="form-label">Nome do produto</label>
       <input type="text" class="form-control" disabled minlength="3" value="{{$product->name}}" required name="name" id="name">
     </div>
-    @foreach ($tags as $tag)
-        <div>
-            <span class="form-label mr-4"><b>Tags: </b></span>
+    <div>
+        <span class="form-label mr-4"><b>Tags: </b></span>
+        @foreach ($tags as $tag)
             <div class="form-check form-check-inline">
                 <input class="form-check-input" disabled checked="{{$product->asTag($tag)}}" name="tags[]" type="checkbox" id="inlineCheckbox{{$tag->id}}" value="{{$tag->id}}">
                 <label class="form-check-label" for="inlineCheckbox{{$tag->id}}">{{$tag->name}}</label>
             </div>
-        </div>
-    @endforeach
+        @endforeach
+    </div>
 </form>
 
 @stop

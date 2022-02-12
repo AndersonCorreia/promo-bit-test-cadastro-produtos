@@ -75,6 +75,7 @@ class ProductsController extends Controller
 
     public function deleteDestroy(Product $product)
     {
+        $product->tags()->detach();
         $product->delete();
 
         return redirect()->route('products.index');
