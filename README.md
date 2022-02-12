@@ -8,17 +8,20 @@ Para executar o projeto tenha uma versão do PHP a partir da 7.4, composer e Doc
 Escolhi usar o docker para executar o banco de dados Mysql utilizado no projeto.
 
 1# passo - Subir o container do banco de dados:
+
 Execute o comando:
 ```
 docker-compose up
 ```
 2# passo - baixar as dependencias do projeto pelo composer:
+
 Execute o comando:
 ```
 composer update
 ```
 
 3# passo - criar o arquivo .env utilizado pelo laravel:
+
 Execute o comando:
 ```
 cp .env.example .env
@@ -27,11 +30,13 @@ Isto cria um arquivo .env com as configurações padrões do projeto, observe qu
 para as informações utilizadas para criar o container do banco de dados, inclusive em outra Porta pois no meu sistema a 3306 estava ocupada.
 
 4# passo - Executar as migrations do laravel para popular o banco de dados:
+
 Execute o comando:
 ```
 php artisan migrate
 ```
 5# passo - Todas as configurações feitas, agora é só executar o servidor do laravel:
+
 Execute o comando:
 ```
 php artisan serve
